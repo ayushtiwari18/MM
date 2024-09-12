@@ -4,7 +4,7 @@ html {
   padding: 0;
   font-family: "Rubik", sans-serif;
   color: #ffffff;
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
 }
 
 .background-video-container {

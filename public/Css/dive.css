@@ -2,13 +2,13 @@ body,
 html {
   margin: 0;
   padding: 0;
-  background: rgb(0, 0, 0);
+  /* background: rgb(0, 0, 0);
   background: linear-gradient(
     23deg,
     rgba(0, 0, 0, 1) 37%,
     rgba(0, 129, 222, 1) 73%,
     rgba(0, 129, 222, 0.975371545102416) 100%
-  );
+  ); */
   font-family: Arial, sans-serif;
   min-height: 100vh; /* Ensures body is at least full viewport height */
   display: flex;

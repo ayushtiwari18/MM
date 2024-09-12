@@ -71,7 +71,7 @@ html {
 }
 /* Footer Section Styling */
 #Footer-section {
-  /* background-color: #263238; */
+  background-color: #263238;
   color: #cfd8dc;
   padding: 20px;
   text-align: center;
@@ -83,7 +83,7 @@ html {
 }
 
 #Footer-section a {
-  /* color: #ffab00; */
+  color: #ffab00;
   text-decoration: none;
   margin: 0 5px;
 }
