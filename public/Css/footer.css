@@ -1,14 +1,14 @@
-body,
+/* body,
 html {
   margin: 0;
   padding: 0;
   width: 100%;
   font-family: Arial, sans-serif;
-}
+} */
 
 footer {
   width: 100%;
-  /* background: linear-gradient(to top, #0d1b2a, #1b263b); */
+  background: linear-gradient(to top, #0d1b2a, #1b263b);
   color: #b3d9ff;
   padding: 30px 20px;
   position: relative;
