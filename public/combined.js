@@ -437,3 +437,101 @@ document.addEventListener("DOMContentLoaded", () => {
   initializeScrollSound();
   initializeScrollEffects(); // Initialize enhanced scrolling effects
 });
+let currentMission = "Explore the Coral Reef";
+let exploredCount = 0;
+let identifiedCount = 0;
+let protectedCount = 0;
+
+function changeVideo(videoSrc, missionTitle) {
+  document.getElementById("main-video").src = videoSrc;
+  document.getElementById(
+    "mission-title"
+  ).innerText = `Current Mission: ${missionTitle}`;
+  document.getElementById("game-status").innerText =
+    "New mission loaded! Choose an action to begin.";
+  currentMission = missionTitle;
+  resetMissionProgress();
+}
+
+function resetMissionProgress() {
+  exploredCount = 0;
+  identifiedCount = 0;
+  protectedCount = 0;
+}
+
+function playGame(action) {
+  let status = document.getElementById("game-status");
+  switch (action) {
+    case "explore":
+      exploredCount++;
+      status.innerText = `Exploring the ${currentMission}... You've discovered ${exploredCount} new areas!`;
+      break;
+    case "identify":
+      identifiedCount++;
+      status.innerText = `Identifying species in the ${currentMission}... You've cataloged ${identifiedCount} different species!`;
+      break;
+    case "protect":
+      protectedCount++;
+      status.innerText = `Protecting the ${currentMission}... You've implemented ${protectedCount} conservation measures!`;
+      break;
+  }
+
+  if (exploredCount >= 3 && identifiedCount >= 3 && protectedCount >= 3) {
+    showQuiz();
+  }
+}
+
+function showQuiz() {
+  const quizContainer = document.getElementById("quiz-container");
+  const quizQuestion = document.getElementById("quiz-question");
+  const quizOptions = document.getElementById("quiz-options");
+  const quizResult = document.getElementById("quiz-result");
+
+  quizContainer.style.display = "block";
+  quizResult.innerText = "";
+
+  // Sample quiz question (you can expand this with more questions related to each mission)
+  const question = "What is the primary threat to coral reefs?";
+  const options = [
+    "Climate change",
+    "Overfishing",
+    "Plastic pollution",
+    "Underwater noise",
+  ];
+  const correctAnswer = "Climate change";
+
+  quizQuestion.innerText = question;
+  quizOptions.innerHTML = "";
+  options.forEach((option) => {
+    const button = document.createElement("button");
+    button.innerText = option;
+    button.onclick = () => checkAnswer(option, correctAnswer);
+    quizOptions.appendChild(button);
+  });
+}
+
+function checkAnswer(selectedAnswer, correctAnswer) {
+  const quizResult = document.getElementById("quiz-result");
+  if (selectedAnswer === correctAnswer) {
+    quizResult.innerText = "Correct! You've completed the mission!";
+    setTimeout(() => {
+      document.getElementById("quiz-container").style.display = "none";
+      showMissionComplete();
+    }, 2000);
+  } else {
+    quizResult.innerText = "Incorrect. Try again!";
+  }
+}
+
+function showMissionComplete() {
+  const missionCompleteDiv = document.getElementById("mission-complete");
+  missionCompleteDiv.classList.remove("hidden");
+}
+
+function closeMissionComplete() {
+  const missionCompleteDiv = document.getElementById("mission-complete");
+  missionCompleteDiv.classList.add("hidden");
+  resetMissionProgress();
+  document.getElementById("game-status").innerText =
+    "Ready for the next mission!";
+}
