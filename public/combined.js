@@ -1,5 +1,10 @@
 // Combined JavaScript file
 
+//Navbar
+document.querySelector(".nav-toggle").addEventListener("click", function () {
+  document.querySelector(".nav-items").classList.toggle("active");
+});
+
 // Utility function to load HTML content into a specified element
 function loadSection(sectionId, filePath, callback) {
   fetch(filePath)
