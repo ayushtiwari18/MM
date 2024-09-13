@@ -2,18 +2,11 @@ body,
 html {
   margin: 0;
   padding: 0;
-  /* background: rgb(0, 0, 0);
-  background: linear-gradient(
-    23deg,
-    rgba(0, 0, 0, 1) 37%,
-    rgba(0, 129, 222, 1) 73%,
-    rgba(0, 129, 222, 0.975371545102416) 100%
-  ); */
+
   font-family: Arial, sans-serif;
   min-height: 100vh; /* Ensures body is at least full viewport height */
   display: flex;
   flex-direction: column; /* Makes the footer stay at the bottom */
-  /* overflow-x: hidden; */
 }
 .container-dive {
   display: grid;
@@ -64,13 +57,7 @@ html {
   display: none;
   z-index: 100;
 }
-#footer-section {
-  margin-top: auto; /* Pushes footer to the bottom */
-  width: 100%;
 
-  padding: 1rem;
-  text-align: center;
-}
 @media (max-width: 768px) {
   .container {
     grid-template-columns: repeat(2, 1fr);
