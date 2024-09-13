@@ -106,10 +106,12 @@ function initializeCardScrolling() {
   const cardContainer = cardSection.querySelector(".card-container");
   if (!cardContainer) return;
 
-  const scrollSpeed = 5;
+  const scrollSpeed = 8; // Increased speed (was 10 before)
   let isAutoScrolling = true;
   let scrollAnimationFrame;
+  let touchStartX;
 
+  // Clone cards to create a seamless loop
   const cards = Array.from(cardContainer.children);
   cards.forEach((card) => {
     const clone = card.cloneNode(true);
@@ -139,9 +141,40 @@ function initializeCardScrolling() {
     cancelAnimationFrame(scrollAnimationFrame);
   }
 
+  // Touch event handlers for mobile devices
+  cardContainer.addEventListener("touchstart", (e) => {
+    touchStartX = e.touches[0].clientX;
+    stopAutoScroll();
+  });
+
+  cardContainer.addEventListener("touchend", (e) => {
+    const touchEndX = e.changedTouches[0].clientX;
+    const diff = touchStartX - touchEndX;
+
+    if (Math.abs(diff) < 5) {
+      // If it's a tap (not a swipe), restart auto-scrolling
+      startAutoScroll();
+    } else {
+      // If it's a swipe, wait a bit before restarting
+      setTimeout(startAutoScroll, 3000);
+    }
+  });
+
+  // Mouse event handlers for desktop devices
   cardContainer.addEventListener("mouseenter", stopAutoScroll);
   cardContainer.addEventListener("mouseleave", startAutoScroll);
+
+  // Start auto-scrolling
   startAutoScroll();
+
+  // Ensure scrolling continues when the tab becomes visible again
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+      stopAutoScroll();
+    } else {
+      startAutoScroll();
+    }
+  });
 }
 
 // Newsletter Subscription

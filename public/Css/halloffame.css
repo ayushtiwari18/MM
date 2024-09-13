@@ -143,6 +143,12 @@ body {
     grid-column: span 1 !important;
     grid-row: span 1 !important;
   }
+  .frame-large {
+    display: none;
+  }
+  .frame-medium {
+    display: none;
+  }
 }
 
 .tittle {
