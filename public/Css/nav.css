@@ -2,19 +2,23 @@ body,
 html {
   margin: 0;
   padding: 0;
-  height: 100%;
   font-family: "Open Sans", sans-serif;
   color: white;
 }
 
 nav {
+  background-color: rgba(0, 48, 90, 0.6);
+  padding: 1rem;
+  position: relative;
+  z-index: 1000;
+}
+
+.nav-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
-  background-color: rgba(0, 48, 90, 0.6);
-  position: relative;
-  z-index: 2;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .logo {
@@ -23,11 +27,20 @@ nav {
   text-shadow: 0 0 10px rgba(78, 205, 196, 0.7);
   display: flex;
   align-items: center;
+  z-index: 1001;
 }
 
-.logo1 {
-  /* border-radius: 50%; */
+.logo img {
   margin-right: 10px;
+}
+
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
 }
 
 .nav-items {
@@ -42,17 +55,13 @@ nav {
   font-size: 1.1rem;
 }
 
-.nav-item:hover {
-  color: #4ecdc4;
-  text-shadow: 0 0 10px rgba(78, 205, 196, 0.7);
-}
-
-.nav-items a.nav-item {
+.nav-item > a {
   color: white;
   text-decoration: none;
 }
 
-.nav-items a.nav-item:hover {
+.nav-item:hover > a,
+.nav-item:hover {
   color: #4ecdc4;
   text-shadow: 0 0 10px rgba(78, 205, 196, 0.7);
 }
@@ -84,7 +93,6 @@ nav {
   background-color: rgba(78, 205, 196, 0.2);
 }
 
-/* Sign-in Button */
 .signin-button {
   background-color: #4ecdc4;
   color: #00305a;
@@ -100,4 +108,39 @@ nav {
 .signin-button:hover {
   background-color: #45b7aa;
   box-shadow: 0 0 15px rgba(78, 205, 196, 0.7);
+}
+
+@media screen and (max-width: 768px) {
+  .nav-toggle {
+    display: block;
+  }
+
+  .nav-items {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 48, 90, 0.9);
+    padding: 1rem;
+  }
+
+  .nav-items.active {
+    display: flex;
+  }
+
+  .nav-item {
+    padding: 0.5rem 0;
+  }
+
+  .dropdown {
+    position: static;
+    background-color: transparent;
+    padding-left: 1rem;
+  }
+
+  .signin-button {
+    margin-top: 1rem;
+  }
 }
