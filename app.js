@@ -43,6 +43,10 @@ app.get("/", (req, res) => {
   res.render("index", { title: "Home" });
 });
 
+app.get("/signin", (req, res) => {
+  res.render("signin", { layout: "layouts/boilerplate3", title: "Signin" });
+});
+
 app.get("/Mystries", (req, res) => {
   res.render("mystries", { layout: "layouts/boilerplate2", title: "Mystries" });
 });
