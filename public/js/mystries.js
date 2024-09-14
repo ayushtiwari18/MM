@@ -193,4 +193,19 @@ document.getElementById("close-info").addEventListener("click", () => {
   document.getElementById("info-panel").classList.add("hidden");
 });
 
+document.getElementById("returnToHome").addEventListener("click", returnToHome);
+document.getElementById("play-game").addEventListener("click", returnToGameUI);
+function returnToHome() {
+  const currentLocation = { name: "Titanic Sinking Spot" };
+  window.location.href = `/?returnedFrom=${encodeURIComponent(
+    currentLocation.name
+  )}`;
+}
+function returnToGameUI() {
+  const currentLocation = { name: "Titanic Sinking Spot" };
+  window.location.href = `/GameUi?returnedFrom=${encodeURIComponent(
+    currentLocation.name
+  )}`;
+}
+
 console.log("Map and markers should be loaded now.");

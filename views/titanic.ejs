@@ -3,12 +3,12 @@
     Scroll to move up/down, Mouse drag to rotate camera<br>
     Depth: <span id="depth">0</span> m
 </div>
-<button id="lets-go-button">Let's Go</button>
+<button id="lets-go-button">Let's Dive <i class="fa-solid fa-ship"></i></button>
 <div id="flash-card"></div>
-<button id="read-info-button">Read Info</button>
+<button id="read-info-button"><i class="fa-solid fa-book-open-reader" style="margin-right:0.5rem"></i>Read Info</button>
 <button id="dive-again-button">Dive Again</button>
 <div id="implosion-text">Submarine Imploded!</div>
-<div id="oxygen-label">Oxygen Levels</div>
+<div id="oxygen-label"><i class="fa-solid fa-mask-ventilator" style="margin-right:0.5rem"></i>Oxygen Levels</div>
 <div id="oxygen-bar">
     <div id="oxygen-level"></div>
 </div>
@@ -21,8 +21,20 @@
     background-color: #008CBA;
     color: white;
     border: none;
-    border-radius: 5px;
-    transition: background-color 0.3s;">Return to Map</button>
+    border-radius: 16px;
+    transition: background-color 0.3s;"><i class="fa-solid fa-people-pulling" style="margin-right:0.5rem"></i>Return to
+    Map</button>
+<button id="returnToHome" style=" position: absolute;
+        top: 10px;
+        right: 350px;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        background-color: #008CBA;
+        color: white;
+        border: none;
+        border-radius: 16px;
+        transition: background-color 0.3s;"><i class="fa-solid fa-house" style="margin-right:0.5rem"></i>Home</button>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.7/dat.gui.min.js"></script>

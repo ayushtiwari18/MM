@@ -101,6 +101,9 @@ function init() {
   document
     .getElementById("returnToMapButton")
     .addEventListener("click", returnToMap);
+  document
+    .getElementById("returnToHome")
+    .addEventListener("click", returnToHome);
 }
 
 function loadModels() {
@@ -521,6 +524,13 @@ function showOceanGateInfo() {
 function returnToMap() {
   const currentLocation = { name: "Titanic Sinking Spot" };
   window.location.href = `/Mystries?returnedFrom=${encodeURIComponent(
+    currentLocation.name
+  )}`;
+}
+
+function returnToHome() {
+  const currentLocation = { name: "Titanic Sinking Spot" };
+  window.location.href = `/?returnedFrom=${encodeURIComponent(
     currentLocation.name
   )}`;
 }
