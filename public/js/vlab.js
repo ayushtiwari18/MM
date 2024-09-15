@@ -1,12 +1,12 @@
 // import { experimentContent } from "./experiments/index.js";
 import { oceanAcidification } from "../js/experiments/oceanAcidification.js";
 import { waves } from "./experiments/wavesFormation.js";
-import { ecosystems } from "./experiments/ecosystems.js";
+import { ecosystems } from "../js/experiments/ecosystems.js";
 import { oceanCurrents } from "./experiments/oceanCurrent.js";
 import { plasticPollution } from "./experiments/plasticPollution.js";
 // import { tsunami } from "./experiments/tsunami.js";
 import { salinity } from "./experiments/salinity.js";
-import { oilSpill } from "./experiments/oilSpill.js";
+import { oilSpill } from "./experiments/oilspill.js";
 
 const experimentContent = {
   oceanAcidification,
