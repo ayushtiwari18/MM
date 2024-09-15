@@ -1,5 +1,5 @@
 import { initOilSpillSimulation } from "../simulations/oilspillSimulation.js";
-import { initOilSpillQuiz } from "../quizzes/oilSpillQuiz.js";
+import { initOilSpillQuiz } from "../quizzes/OilSpillQuiz.js";
 
 export const oilSpill = {
   id: "oil-spill",

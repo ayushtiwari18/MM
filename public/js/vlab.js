@@ -10,10 +10,10 @@ import { oilSpill } from "./experiments/oilspill.js";
 
 const experimentContent = {
   oceanAcidification,
-  // ecosystems,
+  ecosystems,
   oceanCurrents,
   plasticPollution,
-  // oilSpill,
+  oilSpill,
   waves,
   salinity,
   // ... other experiments ...

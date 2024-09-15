@@ -1,4 +1,4 @@
-import { initEcosystemsSimulation } from "../simulations/EcosystemsSimulation.js";
+import { initEcosystemsSimulation } from "../simulations/ecosystemsSimulation.js";
 import { initEcosystemsQuiz } from "../quizzes/EcosystemsQuiz.js";
 
 export const ecosystems = {
