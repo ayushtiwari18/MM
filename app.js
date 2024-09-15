@@ -66,6 +66,10 @@ app.get("/Dive/FoodChain", (req, res) => {
   });
 });
 
+app.get("/vlab", (req, res) => {
+  res.render("vlab", { layout: "layouts/bolierplate4", title: "vlab" });
+});
+
 app.get("/GameUi", (req, res) => {
   res.render("gameui", { title: "Game-UI" });
 });
