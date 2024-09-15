@@ -12,7 +12,12 @@ nav {
   position: relative;
   z-index: 1000;
 }
-
+.logo {
+  color: #fff;
+  font-size: 2em;
+  font-weight: 700;
+  text-decoration: none;
+}
 .nav-container {
   display: flex;
   justify-content: space-between;
