@@ -1,12 +1,13 @@
 const map = L.map("map", {
   center: [20, 0],
-  zoom: 2,
+  zoom: 3,
   minZoom: 2,
   maxBounds: [
     [-90, -180],
     [90, 180],
   ],
   maxBoundsViscosity: 1.0,
+  zoomControl: false,
 });
 
 L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -18,9 +19,28 @@ L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
   ],
 }).addTo(map);
 
+// Add custom marine style to the map
+map.on("load", function () {
+  map.getContainer().style.background = "#b3d9ff";
+});
+
+L.control
+  .zoom({
+    position: "bottomright",
+  })
+  .addTo(map);
+
 function adjustMapView() {
   const viewportWidth = document.documentElement.clientWidth;
-  const zoom = Math.ceil(Math.log2(viewportWidth / 256));
+  const viewportHeight = document.documentElement.clientHeight;
+  let zoom;
+  if (viewportWidth < 600) {
+    zoom = 2;
+  } else if (viewportWidth < 1024) {
+    zoom = 3;
+  } else {
+    zoom = 4;
+  }
   const center = [20, 0];
   map.setView(center, zoom);
 }
@@ -36,6 +56,7 @@ const locations = [
     summary: "Location where the RMS Titanic sank in 1912.",
     description:
       "On April 15, 1912, the RMS Titanic sank in the North Atlantic Ocean after hitting an iceberg during her maiden voyage. The tragedy resulted in the deaths of more than 1,500 passengers and crew.",
+    isAvailable: true,
   },
   {
     name: "Bermuda Triangle",
@@ -44,6 +65,7 @@ const locations = [
     summary: "Area where numerous ships and aircraft have disappeared.",
     description:
       "The Bermuda Triangle is a region in the western part of the North Atlantic Ocean where numerous ships and aircraft are said to have disappeared under mysterious circumstances. The area has been the subject of many theories and conspiracies.",
+    isAvailable: true,
   },
   {
     name: "Mary Celeste",
@@ -52,6 +74,7 @@ const locations = [
     summary: "Location where the Mary Celeste was found abandoned.",
     description:
       "The Mary Celeste was an American merchant brigantine discovered adrift and deserted in the Atlantic Ocean off the Azores Islands on December 5, 1872. The fate of the crew remains unknown and has been the subject of much speculation.",
+    isAvailable: false,
   },
   {
     name: "Lost City of Atlantis",
@@ -60,6 +83,7 @@ const locations = [
     summary: "Hypothetical location of the legendary lost city.",
     description:
       "Atlantis is a fictional island mentioned in Plato's works Timaeus and Critias. Many have searched for the real location of this legendary advanced civilization, with theories ranging from the Mediterranean to the Atlantic Ocean.",
+    isAvailable: false,
   },
   {
     name: "Baltic Sea Anomaly",
@@ -68,6 +92,7 @@ const locations = [
     summary: "Unusual sonar image discovered in the Baltic Sea.",
     description:
       "The Baltic Sea Anomaly is a sonar image resembling a UFO, discovered in 2011 by the Swedish diving team Ocean X. While some claim it's a crashed UFO, others argue it's a natural geological formation.",
+    isAvailable: false,
   },
   {
     name: "Lost Flight of MH370",
@@ -76,6 +101,7 @@ const locations = [
     summary: "Last known location of Malaysia Airlines Flight 370.",
     description:
       "Malaysia Airlines Flight 370 was a scheduled international passenger flight that disappeared on March 8, 2014, while flying from Kuala Lumpur to Beijing. Despite extensive searches, the aircraft's fate remains unknown.",
+    isAvailable: false,
   },
   {
     name: "Dwarka Nagri",
@@ -84,6 +110,7 @@ const locations = [
     summary: "Ancient submerged city off the coast of Gujarat, India.",
     description:
       "Dwarka Nagri, also known as the Lost City of Dwarka, is an ancient submerged city located off the coast of Dwarka in Gujarat, India. According to Hindu tradition, it was the legendary city of Lord Krishna. Marine archaeological explorations have revealed structures and artifacts dating back thousands of years, sparking debates about its true age and historical significance.",
+    isAvailable: true,
   },
   {
     name: "Point Nemo",
@@ -93,16 +120,31 @@ const locations = [
       "The most remote point in the world's oceans, also known as the oceanic pole of inaccessibility.",
     description:
       "Point Nemo, named after Captain Nemo from Jules Verne's '20,000 Leagues Under the Sea', is the point in the ocean farthest from any land. Located in the South Pacific Ocean, it's approximately 2,688 kilometers (1,670 miles) from the nearest land - Ducie Island to the north, Motu Nui to the northeast, and Maher Island to the south. Due to its extreme isolation, it's often used as a spacecraft cemetery where space agencies dispose of decommissioned satellites and other space debris.",
+    isAvailable: true,
   },
 ];
 
 let boat = L.marker([15, 90], {
   icon: L.icon({
-    iconUrl: "/Mystries/boat2.png",
-    iconSize: [100, 100],
-    iconAnchor: [50, 50],
+    iconUrl: "boat2.png", // Replace with a more appropriate boat icon URL
+    iconSize: [50, 50],
+    iconAnchor: [25, 25],
   }),
 }).addTo(map);
+
+// Add this after creating the map
+const waterOverlay = L.rectangle(
+  [
+    [-90, -180],
+    [90, 180],
+  ],
+  {
+    color: "#4ecdc4",
+    fillColor: "#4ecdc4",
+    fillOpacity: 0.2,
+    weight: 0,
+  }
+).addTo(map);
 
 function getOceanPath(start, end) {
   const path = [start];
@@ -129,20 +171,59 @@ function distance(p1, p2) {
   return Math.sqrt(dx * dx + dy * dy);
 }
 
-function moveBoat(targetLat, targetLng, callback) {
+function setupLocationInfo(location) {
+  const goButton = document.getElementById("go-button");
+  const developmentNotice = document.getElementById("development-notice");
+
+  if (location.isAvailable) {
+    goButton.classList.remove("hidden");
+    developmentNotice.classList.add("hidden");
+    goButton.onclick = () => {
+      console.log(`Going into ${location.name}`);
+      if (location.name === "Bermuda Triangle") {
+        window.location.href = "/Mystries/titanic";
+      } else if (location.name === "Titanic Sinking Spot") {
+        window.location.href = "/Mystries/titanic";
+      } else {
+        const locationJSON = encodeURIComponent(JSON.stringify(location));
+        window.location.href = "/Mystries/titanic?location=" + locationJSON;
+      }
+    };
+  } else {
+    goButton.classList.add("hidden");
+    developmentNotice.classList.remove("hidden");
+  }
+}
+document.getElementById("returnToHome").addEventListener("click", returnToHome);
+document.getElementById("play-game").addEventListener("click", returnToGame);
+
+function returnToHome() {
+  const currentLocation = { name: "Titanic Sinking Spot" };
+  window.location.href = `/?returnedFrom=${encodeURIComponent(
+    currentLocation.name
+  )}`;
+}
+function returnToGame() {
+  const currentLocation = { name: "Titanic Sinking Spot" };
+  window.location.href = `/GameUI?returnedFrom=${encodeURIComponent(
+    currentLocation.name
+  )}`;
+}
+
+function moveBoat(targetLat, targetLng, location, callback) {
   const start = boat.getLatLng();
   const end = L.latLng(targetLat, targetLng);
   const path = getOceanPath(start, end);
 
   let currentLeg = 0;
-  const speed = 15;
+  const speed = 10; // Increased speed for smoother animation
 
   function animate() {
     if (currentLeg < path.length - 1) {
       const start = path[currentLeg];
       const end = path[currentLeg + 1];
       const d = distance(start, end);
-      const steps = Math.ceil(d * 5);
+      const steps = Math.ceil(d * 10); // Increased steps for smoother animation
 
       let step = 0;
       function animateLeg() {
@@ -151,8 +232,9 @@ function moveBoat(targetLat, targetLng, callback) {
           const lat = start.lat + (end.lat - start.lat) * i;
           const lng = start.lng + (end.lng - start.lng) * i;
           boat.setLatLng([lat, lng]);
+          map.panTo([lat, lng], { animate: true, duration: 0.1 }); // Smooth map panning
           step++;
-          setTimeout(animateLeg, speed);
+          requestAnimationFrame(animateLeg);
         } else {
           currentLeg++;
           animate();
@@ -160,6 +242,7 @@ function moveBoat(targetLat, targetLng, callback) {
       }
       animateLeg();
     } else {
+      setupLocationInfo(location);
       if (callback) callback();
     }
   }
@@ -167,7 +250,13 @@ function moveBoat(targetLat, targetLng, callback) {
 }
 
 locations.forEach((location) => {
-  const marker = L.marker([location.lat, location.lng]).addTo(map);
+  const marker = L.marker([location.lat, location.lng], {
+    icon: L.icon({
+      iconUrl: "https://cdn-icons-png.flaticon.com/512/684/684908.png", // Replace with a more appropriate marker icon URL
+      iconSize: [30, 30],
+      iconAnchor: [15, 30],
+    }),
+  }).addTo(map);
 
   marker.bindTooltip(location.summary);
 
@@ -176,15 +265,11 @@ locations.forEach((location) => {
     document.getElementById("info-description").textContent =
       location.description;
     document.getElementById("go-button").classList.add("hidden");
+    document.getElementById("development-notice").classList.add("hidden");
     document.getElementById("info-panel").classList.remove("hidden");
 
-    moveBoat(location.lat, location.lng, () => {
-      document.getElementById("go-button").classList.remove("hidden");
-      document.getElementById("go-button").onclick = () => {
-        console.log(`Going into ${location.name}`);
-        const locationJSON = encodeURIComponent(JSON.stringify(location));
-        window.location.href = `/Mystries/titanic?location=${locationJSON}`;
-      };
+    moveBoat(location.lat, location.lng, location, () => {
+      // The setupLocationInfo function is now called inside moveBoat
     });
   });
 });
@@ -193,19 +278,22 @@ document.getElementById("close-info").addEventListener("click", () => {
   document.getElementById("info-panel").classList.add("hidden");
 });
 
-document.getElementById("returnToHome").addEventListener("click", returnToHome);
-document.getElementById("play-game").addEventListener("click", returnToGameUI);
-function returnToHome() {
-  const currentLocation = { name: "Titanic Sinking Spot" };
-  window.location.href = `/?returnedFrom=${encodeURIComponent(
-    currentLocation.name
-  )}`;
+function handleReturnFromDive() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const returnedFromLocation = urlParams.get("returnedFrom");
+  if (returnedFromLocation) {
+    const location = locations.find((loc) => loc.name === returnedFromLocation);
+    if (location) {
+      document.getElementById("info-title").textContent = location.name;
+      document.getElementById("info-description").textContent =
+        location.description;
+      document.getElementById("info-panel").classList.remove("hidden");
+      boat.setLatLng([location.lat, location.lng]);
+      setupLocationInfo(location);
+    }
+  }
 }
-function returnToGameUI() {
-  const currentLocation = { name: "Titanic Sinking Spot" };
-  window.location.href = `/GameUi?returnedFrom=${encodeURIComponent(
-    currentLocation.name
-  )}`;
-}
+
+window.addEventListener("load", handleReturnFromDive);
 
 console.log("Map and markers should be loaded now.");
