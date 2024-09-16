@@ -230,44 +230,80 @@ function initializeContactForm() {
   });
 }
 
-// Add interactive hotspots
-const hotspots = [
-  {
-    top: "30%",
-    left: "20%",
-    fact: "The ocean covers more than 70% of Earth's surface.",
-  },
-  {
-    top: "60%",
-    left: "70%",
-    fact: "The deepest known point in the ocean is the Challenger Deep in the Mariana Trench, at about 11,000 meters (36,000 feet) deep.",
-  },
-  {
-    top: "40%",
-    left: "50%",
-    fact: "There are more historical artifacts under the sea than in all of the world's museums.",
-  },
-];
+document.addEventListener("DOMContentLoaded", () => {
+  const playBtn = document.getElementById("playBtn");
+  const factPopup = document.getElementById("factPopup");
+  let canExplore = false;
 
-hotspots.forEach((spot) => {
-  const hotspot = document.createElement("div");
-  hotspot.classList.add("hotspot");
-  hotspot.style.position = "absolute"; // Ensure it is positioned correctly
-  hotspot.style.top = spot.top;
-  hotspot.style.left = spot.left;
-  hotspot.addEventListener("click", () => showFact(spot.fact));
-  document.getElementById("home").appendChild(hotspot);
+  // Animate the play button text
+  const playBtnText = playBtn.textContent;
+  playBtn.textContent = "";
+  let charIndex = 0;
+
+  function typeText() {
+    if (charIndex < playBtnText.length) {
+      playBtn.textContent += playBtnText.charAt(charIndex);
+      charIndex++;
+      setTimeout(typeText, 100);
+    } else {
+      canExplore = true;
+      playBtn.classList.add("ready");
+    }
+  }
+
+  typeText();
+
+  // Handle play button click
+  playBtn.addEventListener("click", () => {
+    if (canExplore) {
+      window.location.href = "/GameUi";
+    } else {
+      alert(
+        "Please wait for the message to complete before starting your adventure!"
+      );
+    }
+  });
+
+  // Create and handle hotspots
+  const hotspots = [
+    {
+      top: "30%",
+      left: "20%",
+      fact: "The ocean covers more than 70% of Earth's surface.",
+    },
+    {
+      top: "60%",
+      left: "70%",
+      fact: "The deepest known point in the ocean is the Challenger Deep in the Mariana Trench, at about 11,000 meters (36,000 feet) deep.",
+    },
+    {
+      top: "40%",
+      left: "50%",
+      fact: "There are more historical artifacts under the sea than in all of the world's museums.",
+    },
+  ];
+
+  hotspots.forEach((spot, index) => {
+    const hotspot = document.createElement("div");
+    hotspot.classList.add("hotspot");
+    hotspot.style.top = spot.top;
+    hotspot.style.left = spot.left;
+    hotspot.dataset.fact = spot.fact;
+    hotspot.addEventListener("click", showFact);
+    document.getElementById("home").appendChild(hotspot);
+  });
+
+  function showFact(event) {
+    const fact = event.target.dataset.fact;
+    factPopup.textContent = fact;
+    factPopup.style.top = event.clientY + "px";
+    factPopup.style.left = event.clientX + "px";
+    factPopup.classList.remove("hidden");
+    setTimeout(() => {
+      factPopup.classList.add("hidden");
+    }, 3000);
+  }
 });
-
-function showFact(fact) {
-  const popup = document.getElementById("factPopup");
-  popup.textContent = fact;
-  popup.style.display = "block";
-  setTimeout(() => {
-    popup.style.display = "none";
-  }, 3000);
-}
-
 // Enhanced scrolling effects and interactions
 function initializeScrollEffects() {
   let text = document.getElementById("text");

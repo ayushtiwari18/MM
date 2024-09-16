@@ -5,7 +5,7 @@ html {
   padding: 0;
   font-family: "Arial", sans-serif;
   height: 100%;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 /* Ocean background */
@@ -335,6 +335,7 @@ html {
 .controls input[type="range"] {
   width: 100%;
   -webkit-appearance: none;
+  appearance: none;
   background: rgba(255, 255, 255, 0.2);
   outline: none;
   border-radius: 15px;
@@ -389,66 +390,158 @@ html {
   background: #388e3c;
 }
 
-/* Quiz */
-#quiz {
-  padding: 20px;
-  background: rgba(0, 10, 50, 0.9);
-  border-radius: 15px;
-  color: white;
-}
-
-#quiz h2 {
-  margin-bottom: 15px;
-}
-
-#quiz ul {
-  list-style: none;
-  padding-left: 0;
-}
-
-#quiz li {
-  margin-bottom: 10px;
-}
-
-#quiz button {
-  background: #4caf50;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-#quiz button:hover {
-  background: #388e3c;
-}
-
-/* References */
+/* Reference section styles */
 #references {
+  background-color: #003366; /* Deep Ocean Blue */
+  color: #e0f7fa; /* Light Cyan */
   padding: 20px;
-  background: rgba(0, 60, 120, 0.9);
-  border-radius: 15px;
-  color: white;
-}
-
-#references ul {
-  list-style-type: none;
-}
-
-#references li {
-  margin-bottom: 10px;
+  border-radius: 10px;
 }
 
 #references a {
-  color: #4caf50;
+  color: #00acc1; /* Teal */
   text-decoration: none;
 }
 
 #references a:hover {
-  text-decoration: underline;
+  color: #00796b; /* Deep Teal */
 }
 
+#references ul {
+  border-top: 1px solid #004d40; /* Dark Teal */
+  padding-top: 10px;
+}
+/* Ocean Acidification Quiz Styles */
+
+.quiz-container {
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  padding: 20px;
+  margin-top: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.quiz-container h2 {
+  color: #4caf50;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.question {
+  background-color: rgba(0, 60, 120, 0.3);
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.question p {
+  color: #ffffff;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.question label {
+  display: block;
+  color: #e0f7fa;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.question label:hover {
+  color: #4caf50;
+}
+
+.question input[type="radio"] {
+  margin-right: 10px;
+}
+
+#submit-quiz {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(to right, #4caf50, #45a049);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  margin-top: 20px;
+}
+
+#submit-quiz:hover {
+  background: linear-gradient(to right, #45a049, #4caf50);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+#submit-quiz:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+#quiz-results {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: rgba(0, 60, 120, 0.3);
+  border-radius: 10px;
+  color: #ffffff;
+}
+
+#quiz-results h3 {
+  color: #4caf50;
+  margin-bottom: 10px;
+}
+
+#quiz-results p {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+#quiz-results ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+#quiz-results li {
+  margin-bottom: 5px;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+#quiz-results li:nth-child(odd) {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Correct and Incorrect Answer Styles */
+.correct-answer {
+  color: #4caf50;
+}
+
+.incorrect-answer {
+  color: #f44336;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .quiz-container {
+    padding: 15px;
+  }
+
+  .question p {
+    font-size: 16px;
+  }
+
+  #submit-quiz {
+    font-size: 16px;
+    padding: 10px;
+  }
+}
 /* Media queries for responsive design */
 @media (max-width: 768px) {
   .content-wrapper {
