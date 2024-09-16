@@ -104,6 +104,95 @@ function init() {
   document
     .getElementById("returnToHome")
     .addEventListener("click", returnToHome);
+
+  // Add touch event listeners
+  document.addEventListener("touchstart", onTouchStart, false);
+  document.addEventListener("touchmove", onTouchMove, false);
+  document.addEventListener("touchend", onTouchEnd, false);
+
+  // Create mobile navigation buttons
+  createMobileNavigation();
+}
+
+function createMobileNavigation() {
+  const mobileNav = document.createElement("div");
+  mobileNav.id = "mobile-nav";
+  mobileNav.style.position = "absolute";
+  mobileNav.style.bottom = "80px";
+  mobileNav.style.left = "50%";
+  mobileNav.style.transform = "translateX(-50%)";
+  mobileNav.style.display = "none"; // Initially hidden
+
+  const buttons = [
+    {
+      id: "mobile-up",
+      text: "▲",
+      action: () => {
+        moveUp = true;
+      },
+    },
+    {
+      id: "mobile-left",
+      text: "◀",
+      action: () => {
+        moveLeft = true;
+      },
+    },
+    {
+      id: "mobile-right",
+      text: "▶",
+      action: () => {
+        moveRight = true;
+      },
+    },
+    {
+      id: "mobile-down",
+      text: "▼",
+      action: () => {
+        moveDown = true;
+      },
+    },
+    {
+      id: "mobile-forward",
+      text: "↑",
+      action: () => {
+        moveForward = true;
+      },
+    },
+    {
+      id: "mobile-backward",
+      text: "↓",
+      action: () => {
+        moveBackward = true;
+      },
+    },
+  ];
+
+  buttons.forEach((button) => {
+    const btn = document.createElement("button");
+    btn.id = button.id;
+    btn.textContent = button.text;
+    btn.style.width = "50px";
+    btn.style.height = "50px";
+    btn.style.margin = "5px";
+    btn.style.fontSize = "20px";
+    btn.style.backgroundColor = "rgba(255, 255, 255, 0.5)";
+    btn.style.border = "none";
+    btn.style.borderRadius = "25px";
+    btn.addEventListener("touchstart", button.action);
+    btn.addEventListener("touchend", () => {
+      moveForward =
+        moveBackward =
+        moveLeft =
+        moveRight =
+        moveUp =
+        moveDown =
+          false;
+    });
+    mobileNav.appendChild(btn);
+  });
+
+  document.body.appendChild(mobileNav);
 }
 
 function loadModels() {
@@ -360,11 +449,49 @@ function onMouseMove(event) {
   updateCameraPosition();
 }
 
+let touchStartX = 0;
+let touchStartY = 0;
+
+function onTouchStart(event) {
+  touchStartX = event.touches[0].clientX;
+  touchStartY = event.touches[0].clientY;
+}
+
+function onTouchMove(event) {
+  if (!exploring) return;
+
+  const touchEndX = event.touches[0].clientX;
+  const touchEndY = event.touches[0].clientY;
+
+  const deltaX = touchEndX - touchStartX;
+  const deltaY = touchEndY - touchStartY;
+
+  submarine.rotation.y -= deltaX * 0.01;
+  submarine.rotation.x -= deltaY * 0.01;
+
+  submarine.rotation.x = Math.max(
+    -Math.PI / 2,
+    Math.min(Math.PI / 2, submarine.rotation.x)
+  );
+
+  touchStartX = touchEndX;
+  touchStartY = touchEndY;
+
+  updateCameraPosition();
+}
+
+function onTouchEnd() {
+  // Reset touch start positions
+  touchStartX = 0;
+  touchStartY = 0;
+}
+
 function startExploration() {
   if (!submarine) {
     console.error("Submarine model not loaded. Cannot start exploration.");
     return;
   }
+
   exploring = true;
   flashCardShown = false;
   submarine.visible = true;
@@ -375,6 +502,10 @@ function startExploration() {
   scene.fog = new THREE.FogExp2(0x000033, 0.00075);
   document.getElementById("lets-go-button").style.display = "none";
   document.getElementById("oxygen-bar").style.display = "block";
+  // Show mobile navigation on small screens
+  if (window.innerWidth <= 768) {
+    document.getElementById("mobile-nav").style.display = "block";
+  }
 }
 
 function updateEnvironment() {
@@ -409,6 +540,17 @@ function updateEnvironment() {
   document.getElementById("depth").innerText = depth.toFixed(2);
 }
 
+function onWindowResize() {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+
+  // Show/hide mobile navigation based on screen width
+  if (exploring) {
+    document.getElementById("mobile-nav").style.display =
+      window.innerWidth <= 768 ? "block" : "none";
+  }
+}
 function showTitanicInfo() {
   const flashCard = document.getElementById("flash-card");
   flashCard.innerHTML = `
