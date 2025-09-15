@@ -1,14 +1,14 @@
 const express = require("express");
 // const mongoose = require("mongoose");
-const cors = require("cors");
-const bodyParser = require("body-parser");
+const cors = require("cors"); // Import cors for Cross-Origin Resource Sharing
+const bodyParser = require("body-parser"); // Import body-parser for parsing request bodies
 require("dotenv").config();
 const path = require("path");
 const expressLayouts = require("express-ejs-layouts"); // Add this line
 
 const app = express();
 const port = process.env.PORT || 5000;
-
+console.log(" here is your app " + app);
 app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -100,6 +100,10 @@ app.get("/Community/Donation", (req, res) => {
 
 app.get("/CommingSoon", (req, res) => {
   res.render("commingsoon", { title: "Comming Soon" });
+});
+
+app.get("/rapidapi", (req, res) => {
+  res.send();
 });
 
 app.get("*", (req, res) => {

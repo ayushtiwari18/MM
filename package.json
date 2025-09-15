@@ -2,13 +2,11 @@
   "name": "marine-minds",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
+  "bin": "app.js",
   "scripts": {
     "start": "node app.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
@@ -17,5 +15,15 @@
     "express": "^4.19.2",
     "express-ejs-layouts": "^2.5.1",
     "mongoose": "^8.6.1"
+  },
+  "pkg": {
+    "assets": [
+      "public/**/*",
+      "views/**/*"
+    ],
+    "files": [
+      "app.js",
+      "package.json"
+    ]
   }
 }
